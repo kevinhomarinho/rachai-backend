@@ -1,17 +1,15 @@
 package br.edu.fatec.rachaai.controller;
 
 import br.edu.fatec.rachaai.config.JwtUtil;
+import br.edu.fatec.rachaai.enums.StatusCode;
 import br.edu.fatec.rachaai.models.Usuario;
 import br.edu.fatec.rachaai.models.Usuario_DTO;
 import br.edu.fatec.rachaai.services.UserService;
-
-import java.util.HashMap;
-
+import br.edu.fatec.rachaai.utils.StatusResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -23,34 +21,31 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
+
+
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@RequestBody Usuario user) {
         if (userService.findByEmail(user.getEmail())) {
-            Map<String, String> response = new HashMap<>();
-            response.put("error", "EMAIL_ALREADY_REGISTERED");
-            response.put("message", "Email já cadastrado");
+            StatusResponse response = new StatusResponse(StatusCode.EMAIL_ALREADY_REGISTERED);
             return ResponseEntity.badRequest().body(response);
         }
-        
         userService.saveUser(user);
-        String token = jwtUtil.generateToken(user.getEmail());
-
+        StatusResponse response = new StatusResponse(StatusCode.USER_CREATED);
         return ResponseEntity.ok()
-            .header("Authorization", "Bearer " + token)
-            .body(null);
+            .header("Authorization", "Bearer " + jwtUtil.generateToken(user.getEmail()))
+            .body(response);
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signin(@RequestBody Usuario user) {
+    public ResponseEntity<Object> signin(@RequestBody Usuario user) {
         if (userService.findByEmail(user.getEmail(), user.getPassword())){
-            String token = jwtUtil.generateToken(user.getEmail());
-            System.out.printf("Token: %s\n", token);
+            StatusResponse response = new StatusResponse(StatusCode.USER_LOGGED);
             return ResponseEntity.ok()
-                    .header("Authorization", "Bearer " + token)
-                    .build();
-
+                    .header("Authorization", "Bearer " + jwtUtil.generateToken(user.getEmail()))
+                    .body(response);
         }
-        return ResponseEntity.badRequest().body("Email não cadastrado");
+        StatusResponse response = new StatusResponse(StatusCode.EMAIL_OR_PASSWORD_INVALID);
+        return ResponseEntity.badRequest().body(response);
     }
 
     @GetMapping("/update")
