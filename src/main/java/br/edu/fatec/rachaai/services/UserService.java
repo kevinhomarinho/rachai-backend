@@ -46,11 +46,9 @@ public class UserService {
         user_DTO.setEmail(user.getEmail());
         if (user_DTO.isMotorista()) {
             motoristaRespository.save(user_DTO);
-            System.out.println("Motorista");
         }
         else {
             passageiroRepository.save(user_DTO);
-            System.out.println("Passageiro");
         }
     }
 
@@ -99,7 +97,7 @@ public class UserService {
         if (dirOld.exists()){
             for (File files : dirOld.listFiles()) if (!files.isDirectory()) files.delete();
             try { Files.delete(dirOld.toPath()); }
-            catch (IOException e) { return "Arquivo não encontrado"; }
+            catch (IOException e) { return null; }
         }
         File dir = new File(directory);
         if (!file.isEmpty()) {
@@ -108,16 +106,16 @@ public class UserService {
                 if (!dir.exists()) dir.mkdirs();
                 Path path = Paths.get(directory + file.getOriginalFilename());
                 Files.write(path, bytes);
-                return path.toString();
-            } catch (IOException e) { return ""; }
+                return "imagem/"+username+"/"+path.getFileName();
+            } catch (IOException e) { return null; }
         } else {
             if (dir.exists()) {
                 try {
                     for (File files : dir.listFiles()) if (!files.isDirectory()) files.delete();
                     Files.delete(dir.toPath());
-                } catch (IOException e) { return "Arquivo não encontrado"; }
+                } catch (IOException e) { return null; }
             }
-            return "Ainda não possui imagem de perfil";
+            return null;
         }
     }
 
