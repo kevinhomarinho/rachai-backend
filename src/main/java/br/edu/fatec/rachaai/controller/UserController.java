@@ -21,8 +21,6 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
-
-
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@RequestBody Usuario user) {
         if (userService.findByEmail(user.getEmail())) {

@@ -10,7 +10,7 @@ public class StatusResponse {
     private final String message;
 
     public StatusResponse(StatusCode errorCode) {
-        this.error = errorCode.getCode();
+        this.error = errorCode.name();
         this.message = errorCode.getMessage();
     }
 }
