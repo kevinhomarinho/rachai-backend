@@ -1,7 +1,7 @@
 package br.edu.fatec.rachaai.services;
 
 import br.edu.fatec.rachaai.models.Usuario_DTO;
-import br.edu.fatec.rachaai.repositories.User_DTORespository;
+import br.edu.fatec.rachaai.repositories.MotoristaRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,11 +16,11 @@ import java.util.List;
 public class CaronaService {
 
     @Autowired
-    private User_DTORespository user_DTORespository;
+    private MotoristaRespository motoristaRespository;
 
     public List<Usuario_DTO> findAll(int init, int quantity) {
         Pageable pageable = PageRequest.of(init, quantity);
-        Page<Usuario_DTO> caronas = user_DTORespository.findAll(pageable);
+        Page<Usuario_DTO> caronas = motoristaRespository.findAll(pageable);
         List<Usuario_DTO> caronasList = new ArrayList<>();
         caronas.forEach(caronasList::add);
         Collections.reverse(caronasList);
@@ -29,7 +29,7 @@ public class CaronaService {
 
     public List<Usuario_DTO> findByOrigem(String origem, int init, int quantity) {
         Pageable pageable = PageRequest.of(init, quantity);
-        Page<Usuario_DTO> caronas = user_DTORespository.findByOrigem(origem, pageable);
+        Page<Usuario_DTO> caronas = motoristaRespository.findByOrigem(origem, pageable);
         List<Usuario_DTO> caronasList = new ArrayList<>();
         caronas.forEach(caronasList::add);
         Collections.reverse(caronasList);

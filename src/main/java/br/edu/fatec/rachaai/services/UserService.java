@@ -2,8 +2,9 @@ package br.edu.fatec.rachaai.services;
 
 import br.edu.fatec.rachaai.models.Usuario;
 import br.edu.fatec.rachaai.models.Usuario_DTO;
+import br.edu.fatec.rachaai.repositories.PassageiroRepository;
 import br.edu.fatec.rachaai.repositories.UserRepository;
-import br.edu.fatec.rachaai.repositories.User_DTORespository;
+import br.edu.fatec.rachaai.repositories.MotoristaRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,10 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private User_DTORespository user_DTORespository;
+    private MotoristaRespository motoristaRespository;
+
+    @Autowired
+    private PassageiroRepository passageiroRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -40,7 +44,14 @@ public class UserService {
         user_DTO.setId(user.getId());
         user_DTO.setUsername(user.getUsername());
         user_DTO.setEmail(user.getEmail());
-        user_DTORespository.save(user_DTO);
+        if (user_DTO.isMotorista()) {
+            motoristaRespository.save(user_DTO);
+            System.out.println("Motorista");
+        }
+        else {
+            passageiroRepository.save(user_DTO);
+            System.out.println("Passageiro");
+        }
     }
 
     public boolean findByEmail(String email) {
@@ -49,7 +60,7 @@ public class UserService {
     }
 
     public Usuario_DTO findByEmailDTO(String email) {
-        return Optional.ofNullable(user_DTORespository.findByEmail(email))
+        return Optional.ofNullable(motoristaRespository.findByEmail(email))
                 .get().orElse(null);
     }
 
@@ -60,35 +71,53 @@ public class UserService {
     }
 
     public Usuario_DTO findUserById(Long id) {
-        return Optional.of(user_DTORespository.findById(id))
+        return Optional.of(motoristaRespository.findById(id))
                 .get().orElse(null);
     }
 
     public List<Usuario_DTO> findAll() {
-        return user_DTORespository.findAll();
+        return motoristaRespository.findAll();
     }
 
-    public Usuario_DTO update(Usuario_DTO user, MultipartFile imagem_Perfil, String username, String origem, String destino, String horarios) {
-        user.setImagem_perfil(saveFileLocally(imagem_Perfil));
+    public Usuario_DTO update(Usuario_DTO user, MultipartFile imagem_Perfil, String username, String origem, String destino, String horarios, boolean motorista) {
+        String nameOld = user.getUsername();
         user.setUsername(username);
+        user.setImagem_perfil(saveFileLocally(imagem_Perfil, user.getUsername(), nameOld));
         user.setOrigem(origem);
         user.setDestino(destino);
         user.setHorarios(horarios);
-        user_DTORespository.save(user);
+        user.setMotorista(motorista);
+        if (motorista) motoristaRespository.save(user);
+        else passageiroRepository.save(user);
         return user;
     }
 
-    public String saveFileLocally(MultipartFile file) {
-        try {
-            String directory = "src/main/resources/imagem/";
-            byte[] bytes = file.getBytes();
-            File dir = new File(directory);
-            if (!dir.exists()) dir.mkdirs();
-            Path path = Paths.get(directory + file.getOriginalFilename());
-            Files.write(path, bytes);
-            return path.toString();
-        } catch (IOException e) {
-            return "Erro ao salvar imagem" + e.getMessage();
+    public String saveFileLocally(MultipartFile file, String username, String nameOld) {
+        String directory = "src/main/resources/imagem/" + username + "/";
+        String directoryOld = "src/main/resources/imagem/" + nameOld + "/";
+        File dirOld = new File(directoryOld);
+        if (dirOld.exists()){
+            for (File files : dirOld.listFiles()) if (!files.isDirectory()) files.delete();
+            try { Files.delete(dirOld.toPath()); }
+            catch (IOException e) { return "Arquivo não encontrado"; }
+        }
+        File dir = new File(directory);
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                if (!dir.exists()) dir.mkdirs();
+                Path path = Paths.get(directory + file.getOriginalFilename());
+                Files.write(path, bytes);
+                return path.toString();
+            } catch (IOException e) { return ""; }
+        } else {
+            if (dir.exists()) {
+                try {
+                    for (File files : dir.listFiles()) if (!files.isDirectory()) files.delete();
+                    Files.delete(dir.toPath());
+                } catch (IOException e) { return "Arquivo não encontrado"; }
+            }
+            return "Ainda não possui imagem de perfil";
         }
     }
 

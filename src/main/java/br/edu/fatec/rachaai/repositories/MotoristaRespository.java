@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface User_DTORespository extends JpaRepository<Usuario_DTO, Long> {
+public interface MotoristaRespository extends JpaRepository<Usuario_DTO, Long> {
     @Query("SELECT u FROM Usuario_DTO u WHERE u.origem LIKE CONCAT('%', :origem, '%')")
     Page<Usuario_DTO> findByOrigem(String origem, Pageable pageable);
 

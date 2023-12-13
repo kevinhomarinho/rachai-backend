@@ -46,15 +46,24 @@ public class UserController {
         return ResponseEntity.badRequest().body(response);
     }
 
-    @GetMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<Usuario_DTO> update(@RequestHeader("Authorization") String token,
                                               @RequestPart("imagem_perfil") MultipartFile imagem_perfil,
                                               @RequestPart("username") String username,
                                               @RequestPart("origem") String origem,
                                               @RequestPart("destino") String destino,
-                                              @RequestPart("horarios") String horarios) {
+                                              @RequestPart("horarios") String horarios,
+                                              @RequestPart("motorista") String motorista) {
+        boolean motorista_bool = motorista.equals("true");
         String email = jwtUtil.getEmailFromToken(token.substring(7));
         Usuario_DTO user = userService.findByEmailDTO(email);
-        return ResponseEntity.ok(userService.update(user, imagem_perfil, username, origem, destino, horarios));
+        return ResponseEntity.ok(userService.update(user, imagem_perfil, username, origem, destino, horarios, motorista_bool));
+    }
+
+    @GetMapping("/read")
+    public ResponseEntity<Usuario_DTO> read(@RequestHeader("Authorization") String token) {
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
+        Usuario_DTO user = userService.findByEmailDTO(email);
+        return ResponseEntity.ok(user);
     }
 }

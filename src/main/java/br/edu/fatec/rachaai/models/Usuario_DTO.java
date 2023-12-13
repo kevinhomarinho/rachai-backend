@@ -20,4 +20,5 @@ public class Usuario_DTO {
     private String destino;
     private String horarios;
     private String email;
+    private boolean motorista;
 }
