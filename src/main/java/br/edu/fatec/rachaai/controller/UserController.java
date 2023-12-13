@@ -47,13 +47,13 @@ public class UserController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<Usuario_DTO> update(@RequestHeader("Authorization") String token,
-                                              @RequestPart("imagem_perfil") MultipartFile imagem_perfil,
-                                              @RequestPart("username") String username,
-                                              @RequestPart("origem") String origem,
-                                              @RequestPart("destino") String destino,
-                                              @RequestPart("horarios") String horarios,
-                                              @RequestPart("motorista") String motorista) {
+    public ResponseEntity<Usuario_DTO> update(@RequestHeader(value = "Authorization", required = false) String token,
+                                              @RequestPart(value = "imagem_perfil", required = false) MultipartFile imagem_perfil,
+                                              @RequestPart(value = "username", required = false) String username,
+                                              @RequestPart(value = "origem", required = false) String origem,
+                                              @RequestPart(value = "destino", required = false) String destino,
+                                              @RequestPart(value = "horarios", required = false) String horarios,
+                                              @RequestPart(value = "motorista", required = false) String motorista) {
         boolean motorista_bool = motorista.equals("true");
         String email = jwtUtil.getEmailFromToken(token.substring(7));
         Usuario_DTO user = userService.findByEmailDTO(email);

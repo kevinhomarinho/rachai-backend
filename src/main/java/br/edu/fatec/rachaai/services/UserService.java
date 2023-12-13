@@ -81,12 +81,12 @@ public class UserService {
 
     public Usuario_DTO update(Usuario_DTO user, MultipartFile imagem_Perfil, String username, String origem, String destino, String horarios, boolean motorista) {
         String nameOld = user.getUsername();
-        user.setUsername(username);
-        user.setImagem_perfil(saveFileLocally(imagem_Perfil, user.getUsername(), nameOld));
-        user.setOrigem(origem);
-        user.setDestino(destino);
-        user.setHorarios(horarios);
-        user.setMotorista(motorista);
+        if (username != null) user.setUsername(username);
+        if (imagem_Perfil != null) user.setImagem_perfil(saveFileLocally(imagem_Perfil, user.getUsername(), nameOld));
+        if (origem != null) user.setOrigem(origem);
+        if (destino != null) user.setDestino(destino);
+        if (horarios != null) user.setHorarios(horarios);
+        if (motorista != user.isMotorista()) user.setMotorista(motorista);
         if (motorista) motoristaRespository.save(user);
         else passageiroRepository.save(user);
         return user;
