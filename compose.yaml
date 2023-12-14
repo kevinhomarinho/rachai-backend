@@ -1,9 +1,0 @@
-version: '3'
-services:
-  h2db:
-    image: oscarfonts/h2:2.1
-    volumes:
-      - ./data:/home/h2/data
-    ports:
-      - "1521:1521"
-      - "81:81"
