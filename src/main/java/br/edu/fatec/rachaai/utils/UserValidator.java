@@ -34,7 +34,7 @@ public class UserValidator {
         return null;
     }
 
-    private static final List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "png");
+    private static final List<String> allowedExtensions = Arrays.asList("webp", "jpeg", "png");
 
     public static StatusError validateUserUpdate(String username, String horarios, MultipartFile imagem_perfil) {
         if (imagem_perfil != null && !allowedExtensions.contains(Objects.requireNonNull(imagem_perfil.getContentType()).split("/")[1]))
