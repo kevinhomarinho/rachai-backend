@@ -37,7 +37,6 @@ public class UserValidator {
     private static final List<String> allowedExtensions = Arrays.asList("webp", "jpeg", "png");
 
     public static StatusError validateUserUpdate(String username, String horarios, MultipartFile imagem_perfil) {
-        if (imagem_perfil != null && imagem_perfil.getSize() > 1000000) return new StatusError(StatusCode.IMAGE_MAX_SIZE_EXCEEDED);
         if (imagem_perfil != null && !allowedExtensions.contains(Objects.requireNonNull(imagem_perfil.getContentType()).split("/")[1]))
             return new StatusError(StatusCode.IMAGE_FORMAT_NOT_SUPPORTED);
         if (username != null && !isValidUsername.test(username)) return new StatusError(StatusCode.USERNAME_INVALID);
