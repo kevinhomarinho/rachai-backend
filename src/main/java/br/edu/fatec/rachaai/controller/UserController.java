@@ -21,6 +21,11 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @GetMapping("/teste/{quantidade}")
+    public ResponseEntity<String> teste(@PathVariable int quantidade) {
+        return ResponseEntity.ok("Usuarios gerados: " + userService.gerarTeste(quantidade));
+    }
+
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@RequestBody Usuario user) {
         if (userService.findByEmail(user.getEmail())) {
@@ -65,5 +70,13 @@ public class UserController {
         String email = jwtUtil.getEmailFromToken(token.substring(7));
         Usuario_DTO user = userService.findByEmailDTO(email);
         return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete(@RequestHeader("Authorization") String token) {
+        String email = jwtUtil.getEmailFromToken(token.substring(7));
+        Usuario_DTO user = userService.findByEmailDTO(email);
+        userService.delete(user);
+        return ResponseEntity.ok().build();
     }
 }

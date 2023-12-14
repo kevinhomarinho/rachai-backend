@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (IOException | ServletException e) {
-            System.out.println("Token invalido, realize Login novamente. Erro ao filtrar a solicitação" + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }
