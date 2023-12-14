@@ -7,6 +7,7 @@ import br.edu.fatec.rachaai.repositories.Usuario_DTORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -79,9 +80,10 @@ public class UserService {
                 .isPresent();
     }
 
+    @Transactional
     public void delete(String email) {
-        usuarioDTORepository.deleteByEmail(email);
         userRepository.deleteByEmail(email);
+        usuarioDTORepository.deleteByEmail(email);
     }
 
     public Usuario_DTO update(Usuario_DTO user, MultipartFile imagem_Perfil, String username, String origem, String destino, String horarios, boolean motorista) {
