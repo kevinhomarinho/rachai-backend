@@ -70,7 +70,7 @@ public class UserService {
 
     public Usuario_DTO findByEmailDTO(String email) {
         return Optional.of(usuarioDTORepository.findByEmail(email))
-                .get().orElseThrow();
+                .get();
     }
 
     public boolean findByEmail(String email, String senha) {
@@ -79,13 +79,14 @@ public class UserService {
                 .isPresent();
     }
 
-    public void delete(Usuario_DTO user) {
-        usuarioDTORepository.delete(user);
+    public void delete(String email) {
+        usuarioDTORepository.deleteByEmail(email);
+        userRepository.deleteByEmail(email);
     }
 
     public Usuario_DTO update(Usuario_DTO user, MultipartFile imagem_Perfil, String username, String origem, String destino, String horarios, boolean motorista) {
         String nameOld = user.getUsername();
-        delete(user);
+        usuarioDTORepository.delete(user);
         if (username != null) user.setUsername(username);
         if (imagem_Perfil != null) user.setImagem_perfil(saveFileLocally(imagem_Perfil, user.getUsername(), nameOld));
         if (origem != null) user.setOrigem(origem);

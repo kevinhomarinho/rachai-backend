@@ -5,6 +5,7 @@ import br.edu.fatec.rachaai.enums.StatusCode;
 import br.edu.fatec.rachaai.models.Usuario;
 import br.edu.fatec.rachaai.models.Usuario_DTO;
 import br.edu.fatec.rachaai.services.UserService;
+import br.edu.fatec.rachaai.utils.StatusError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class UserController {
                     .header("Authorization", "Bearer " + jwtUtil.generateToken(user.getEmail()))
                     .build();
         }
-        br.edu.fatec.rachaai.utils.StatusError response = new br.edu.fatec.rachaai.utils.StatusError(StatusCode.EMAIL_OR_PASSWORD_INVALID);
+        StatusError response = new StatusError(StatusCode.EMAIL_OR_PASSWORD_INVALID);
         return ResponseEntity.badRequest().body(response);
     }
 
@@ -72,8 +73,7 @@ public class UserController {
     @DeleteMapping("/delete")
     public ResponseEntity<?> delete(@RequestHeader("Authorization") String token) {
         String email = jwtUtil.getEmailFromToken(token.substring(7));
-        Usuario_DTO user = userService.findByEmailDTO(email);
-        userService.delete(user);
+        userService.delete(email);
         return ResponseEntity.ok().build();
     }
 }

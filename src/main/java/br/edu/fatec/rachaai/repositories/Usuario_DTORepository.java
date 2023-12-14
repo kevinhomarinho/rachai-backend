@@ -6,12 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
 public interface Usuario_DTORepository extends JpaRepository<Usuario_DTO, Long> {
+    Usuario_DTO findByEmail(String email);
 
-    Optional<Usuario_DTO> findByEmail(String email);
+    void deleteByEmail(String email);
     Page<Usuario_DTO> findAllByMotoristaIsTrueAndOrigemIsLikeIgnoreCase(String origem, Pageable pageable);
     Page<Usuario_DTO> findAllByMotoristaIsFalseAndOrigemIsLikeIgnoreCase(String origem, Pageable pageable);
     Page<Usuario_DTO> findAllByMotoristaIsTrue(Pageable pageable);
