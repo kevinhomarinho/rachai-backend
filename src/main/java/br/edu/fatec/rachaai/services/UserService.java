@@ -35,8 +35,8 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public int gerarTeste(int quantidade) {
-        List<Usuario> users = gerarUsuarios(quantidade);
+    public int gerarTeste() {
+        List<Usuario> users = gerarUsuarios(45);
         for (Usuario user : users) saveUser(user);
         gerarDTOs(users);
         return users.size();

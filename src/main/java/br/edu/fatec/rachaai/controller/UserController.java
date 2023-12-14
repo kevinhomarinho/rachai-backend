@@ -21,9 +21,9 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @GetMapping("/teste/{quantidade}")
-    public ResponseEntity<String> teste(@PathVariable int quantidade) {
-        return ResponseEntity.ok("Usuarios gerados: " + userService.gerarTeste(quantidade));
+    @GetMapping("/teste")
+    public ResponseEntity<String> teste() {
+        return ResponseEntity.ok("Usuarios gerados: " + userService.gerarTeste());
     }
 
     @PostMapping("/signup")
