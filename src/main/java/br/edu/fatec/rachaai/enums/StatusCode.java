@@ -16,6 +16,7 @@ public enum StatusCode {
     USER_NOT_ALLOWED_TO_DELETE("Usuário não permitido para deletar"),
     USER_NOT_ALLOWED_TO_READ("Usuário não permitido para ler"),
     USER_NOT_ALLOWED_TO_LIST("Usuário não permitido para listar"),
+    IMAGE_FORMAT_NOT_SUPPORTED("Formato de imagem não suportado"),
     USERNAME_INVALID("Username inválido"),
     RA_INVALID("RA inválido"),
     EMAIL_INVALID("Email inválido"),

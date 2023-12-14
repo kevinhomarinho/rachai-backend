@@ -1,7 +1,11 @@
 package br.edu.fatec.rachaai.utils;
 
 import br.edu.fatec.rachaai.enums.StatusCode;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
@@ -30,7 +34,11 @@ public class UserValidator {
         return null;
     }
 
-    public static StatusError validateUserUpdate(String username, String horarios){
+    private static final List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "png");
+
+    public static StatusError validateUserUpdate(String username, String horarios, MultipartFile imagem_perfil) {
+        if (imagem_perfil != null && !allowedExtensions.contains(Objects.requireNonNull(imagem_perfil.getContentType()).split("/")[1]))
+            return new StatusError(StatusCode.IMAGE_FORMAT_NOT_SUPPORTED);
         if (username != null && !isValidUsername.test(username)) return new StatusError(StatusCode.USERNAME_INVALID);
         if (horarios != null && !isValidHorarios.test(horarios)) return new StatusError(StatusCode.HORARIOS_INVALID);
         return null;

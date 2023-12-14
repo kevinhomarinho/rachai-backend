@@ -60,7 +60,7 @@ public class UserController {
         boolean motorista_bool = motorista.equals("true");
         String email = jwtUtil.getEmailFromToken(token.substring(7));
         Usuario_DTO user = userService.findByEmailDTO(email);
-        StatusError error = validateUserUpdate(username, horarios);
+        StatusError error = validateUserUpdate(username, horarios, imagem_perfil);
         if (error != null) return ResponseEntity.badRequest().body(error);
         return ResponseEntity.ok(userService.update(user, imagem_perfil, username, origem, destino, horarios, motorista_bool));
     }
