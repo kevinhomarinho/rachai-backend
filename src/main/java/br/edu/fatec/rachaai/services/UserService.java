@@ -103,11 +103,13 @@ public class UserService {
     }
 
     public StatusError userValid(Usuario user) {
+        System.out.println(user);
         String Username = user.getUsername();
         String ra = user.getRa();
+        String Email = user.getEmail();
         String Password = user.getPassword();
-        if (findByEmail(user.getEmail())) return new StatusError(StatusCode.EMAIL_ALREADY_REGISTERED);
-        return validateUser(Username, ra, Password);
+        if (findByEmail(Email)) return new StatusError(StatusCode.EMAIL_ALREADY_REGISTERED);
+        return validateUser(Username, Email, ra, Password);
     }
 
     public String saveFileLocally(MultipartFile file, String username, String nameOld) {

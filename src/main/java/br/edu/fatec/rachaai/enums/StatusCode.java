@@ -18,6 +18,7 @@ public enum StatusCode {
     USER_NOT_ALLOWED_TO_LIST("Usuário não permitido para listar"),
     USERNAME_INVALID("Username inválido"),
     RA_INVALID("RA inválido"),
+    EMAIL_INVALID("Email inválido"),
     PASSWORD_INVALID("Senha inválida"),
     HORARIOS_INVALID("Horários inválidos");
 
