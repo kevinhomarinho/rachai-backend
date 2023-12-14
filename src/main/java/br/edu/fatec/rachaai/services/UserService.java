@@ -103,7 +103,6 @@ public class UserService {
     }
 
     public StatusError userValid(Usuario user) {
-        System.out.println(user);
         String Username = user.getUsername();
         String ra = user.getRa();
         String Email = user.getEmail();
