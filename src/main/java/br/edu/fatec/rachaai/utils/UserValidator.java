@@ -17,7 +17,7 @@ public class UserValidator {
             Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$").matcher(email).matches();
 
     private static final Predicate<String> isValidPassword = password ->
-            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,}$").matcher(password).matches();
+            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!1@#$%^&+=])(?=\\S+$).{6,}$").matcher(password).matches();
 
     private static final Predicate<String> isValidHorarios = horarios ->
             Pattern.compile("^.{3,100}$").matcher(horarios).matches();
@@ -31,8 +31,8 @@ public class UserValidator {
     }
 
     public static StatusError validateUserUpdate(String username, String horarios){
-        if (isValidUsername.test(username)) return new StatusError(StatusCode.USERNAME_INVALID);
-        if (isValidHorarios.test(horarios)) return new StatusError(StatusCode.HORARIOS_INVALID);
+        if (username != null && !isValidUsername.test(username)) return new StatusError(StatusCode.USERNAME_INVALID);
+        if (horarios != null && !isValidHorarios.test(horarios)) return new StatusError(StatusCode.HORARIOS_INVALID);
         return null;
     }
 }

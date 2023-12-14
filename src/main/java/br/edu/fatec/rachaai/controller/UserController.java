@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<Usuario_DTO> update(@RequestHeader(value = "Authorization") String token,
+    public ResponseEntity<Object> update(@RequestHeader(value = "Authorization") String token,
                                               @RequestPart(value = "imagem_perfil", required = false) MultipartFile imagem_perfil,
                                               @RequestPart(value = "username", required = false) String username,
                                               @RequestPart(value = "origem", required = false) String origem,
@@ -61,8 +61,7 @@ public class UserController {
         String email = jwtUtil.getEmailFromToken(token.substring(7));
         Usuario_DTO user = userService.findByEmailDTO(email);
         StatusError error = validateUserUpdate(username, horarios);
-        System.out.println(imagem_perfil.getContentType());
-        if (error != null) return ResponseEntity.badRequest().body(user);
+        if (error != null) return ResponseEntity.badRequest().body(error);
         return ResponseEntity.ok(userService.update(user, imagem_perfil, username, origem, destino, horarios, motorista_bool));
     }
 
