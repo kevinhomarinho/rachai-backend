@@ -1,9 +1,11 @@
 package br.edu.fatec.rachaai.services;
 
+import br.edu.fatec.rachaai.enums.StatusCode;
 import br.edu.fatec.rachaai.models.Usuario;
 import br.edu.fatec.rachaai.models.Usuario_DTO;
 import br.edu.fatec.rachaai.repositories.UserRepository;
 import br.edu.fatec.rachaai.repositories.Usuario_DTORepository;
+import br.edu.fatec.rachaai.utils.StatusError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import java.util.Random;
 
 import static br.edu.fatec.rachaai.utils.GerarUsuariosTeste.gerarUsuarios;
 import static br.edu.fatec.rachaai.utils.GerarUsuariosTeste.origem;
+import static br.edu.fatec.rachaai.utils.UserValidator.validateUser;
 
 @Service
 public class UserService {
@@ -35,7 +38,7 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public int gerarTeste() {
-        List<Usuario> users = gerarUsuarios(45);
+        List<Usuario> users = gerarUsuarios(250);
         for (Usuario user : users) saveUser(user);
         gerarDTOs(users);
         return users.size();
@@ -97,6 +100,14 @@ public class UserService {
         if (motorista != user.isMotorista()) user.setMotorista(motorista);
         usuarioDTORepository.save(user);
         return user;
+    }
+
+    public StatusError userValid(Usuario user) {
+        String Username = user.getUsername();
+        String ra = user.getRa();
+        String Password = user.getPassword();
+        if (findByEmail(user.getEmail())) return new StatusError(StatusCode.EMAIL_ALREADY_REGISTERED);
+        return validateUser(Username, ra, Password);
     }
 
     public String saveFileLocally(MultipartFile file, String username, String nameOld) {

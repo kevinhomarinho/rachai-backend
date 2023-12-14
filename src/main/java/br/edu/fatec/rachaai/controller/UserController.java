@@ -28,10 +28,9 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@RequestBody Usuario user) {
-        if (userService.findByEmail(user.getEmail())) {
-            br.edu.fatec.rachaai.utils.StatusError response = new br.edu.fatec.rachaai.utils.StatusError(StatusCode.EMAIL_ALREADY_REGISTERED);
-            return ResponseEntity.badRequest().body(response);
-        }
+        StatusError error = userService.userValid(user);
+        if (error != null) return ResponseEntity.badRequest().body(error);
+
         userService.saveUser(user);
         return ResponseEntity.ok()
             .header("Authorization", "Bearer " + jwtUtil.generateToken(user.getEmail()))

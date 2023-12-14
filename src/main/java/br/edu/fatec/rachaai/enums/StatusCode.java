@@ -15,7 +15,11 @@ public enum StatusCode {
     USER_NOT_ALLOWED_TO_UPDATE("Usuário não permitido para atualizar"),
     USER_NOT_ALLOWED_TO_DELETE("Usuário não permitido para deletar"),
     USER_NOT_ALLOWED_TO_READ("Usuário não permitido para ler"),
-    USER_NOT_ALLOWED_TO_LIST("Usuário não permitido para listar");
+    USER_NOT_ALLOWED_TO_LIST("Usuário não permitido para listar"),
+    USERNAME_INVALID("Username inválido"),
+    RA_INVALID("RA inválido"),
+    PASSWORD_INVALID("Senha inválida"),
+    HORARIOS_INVALID("Horários inválidos");
 
     private final String message;
 
