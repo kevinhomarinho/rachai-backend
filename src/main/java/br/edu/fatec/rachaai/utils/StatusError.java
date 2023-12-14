@@ -4,12 +4,12 @@ import br.edu.fatec.rachaai.enums.StatusCode;
 import lombok.Data;
 
 @Data
-public class StatusResponse {
+public class StatusError {
 
     private final String error;
     private final String message;
 
-    public StatusResponse(StatusCode errorCode) {
+    public StatusError(StatusCode errorCode) {
         this.error = errorCode.name();
         this.message = errorCode.getMessage();
     }

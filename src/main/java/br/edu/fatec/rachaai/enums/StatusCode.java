@@ -15,14 +15,7 @@ public enum StatusCode {
     USER_NOT_ALLOWED_TO_UPDATE("Usuário não permitido para atualizar"),
     USER_NOT_ALLOWED_TO_DELETE("Usuário não permitido para deletar"),
     USER_NOT_ALLOWED_TO_READ("Usuário não permitido para ler"),
-    USER_NOT_ALLOWED_TO_LIST("Usuário não permitido para listar"),
-    USER_CREATED("Usuário criado com sucesso"),
-    USER_UPDATED("Usuário atualizado com sucesso"),
-    USER_DELETED("Usuário deletado com sucesso"),
-    USER_READ("Usuário lido com sucesso"),
-    USER_LISTED("Usuário listado com sucesso"),
-    USER_LOGGED("Usuário logado com sucesso"),
-    USER_LOGGED_OUT("Usuário deslogado com sucesso");
+    USER_NOT_ALLOWED_TO_LIST("Usuário não permitido para listar");
 
     private final String message;
 

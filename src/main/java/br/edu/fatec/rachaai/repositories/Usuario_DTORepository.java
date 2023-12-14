@@ -12,10 +12,8 @@ import java.util.Optional;
 public interface Usuario_DTORepository extends JpaRepository<Usuario_DTO, Long> {
 
     Optional<Usuario_DTO> findByEmail(String email);
-
     Page<Usuario_DTO> findAllByMotoristaIsTrueAndOrigemIsLikeIgnoreCase(String origem, Pageable pageable);
     Page<Usuario_DTO> findAllByMotoristaIsFalseAndOrigemIsLikeIgnoreCase(String origem, Pageable pageable);
-
     Page<Usuario_DTO> findAllByMotoristaIsTrue(Pageable pageable);
     Page<Usuario_DTO> findAllByMotoristaIsFalse(Pageable pageable);
 }

@@ -2,9 +2,8 @@ package br.edu.fatec.rachaai.services;
 
 import br.edu.fatec.rachaai.models.Usuario;
 import br.edu.fatec.rachaai.models.Usuario_DTO;
-import br.edu.fatec.rachaai.repositories.Usuario_DTORepository;
 import br.edu.fatec.rachaai.repositories.UserRepository;
-import br.edu.fatec.rachaai.utils.GerarUsuariosTeste;
+import br.edu.fatec.rachaai.repositories.Usuario_DTORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
