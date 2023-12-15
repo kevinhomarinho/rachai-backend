@@ -26,6 +26,10 @@ services:
       - 8080:8080
 ```
 
+### Gerando usuários para teste
+Você pode gerar 250 usuários para testar a aplicação na rota: http://localhost:8080/user/teste
+**Aviso, você não deve dar f5 após gerar os 250 usuários, aguarde aparecer a mensagem "usuários gerados: 250"**
+
 ## Colaboradores
 
 - [Allan Santos - Dev Back-end](https://github.com/AllanSantos-DV)
