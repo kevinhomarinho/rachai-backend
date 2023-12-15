@@ -112,8 +112,8 @@ public class UserService {
     }
 
     public String saveFileLocally(MultipartFile file, String username, String nameOld) {
-        String directory = "src/main/resources/imagem/" + username + "/";
-        String directoryOld = "src/main/resources/imagem/" + nameOld + "/";
+        String directory = "/imagem/" + username + "/";
+        String directoryOld = "/imagem/" + nameOld + "/";
         File dirOld = new File(directoryOld);
         if (dirOld.exists()) {
             for (File files : dirOld.listFiles()) if (!files.isDirectory()) files.delete();
@@ -130,7 +130,7 @@ public class UserService {
                 if (!dir.exists()) dir.mkdirs();
                 Path path = Paths.get(directory + file.getOriginalFilename());
                 Files.write(path, bytes);
-                return "imagem/" + username + "/" + path.getFileName();
+                return directory + path.getFileName();
             } catch (IOException e) {
                 return null;
             }

@@ -16,11 +16,11 @@ public class ImagesController {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    @GetMapping(BASE_PATH + "/{username}" + "/{imageName}")
+    @GetMapping(BASE_PATH + "/{imageName}")
     @ResponseBody
     public ResponseEntity<Resource> getImage(@PathVariable String username, @PathVariable String imageName) {
         try {
-            Resource resource = resourceLoader.getResource("classpath:" + BASE_PATH + "/" + username + "/" + imageName);
+            Resource resource = resourceLoader.getResource("classpath:" + BASE_PATH + "/" + imageName);
             if (resource.exists() && resource.isReadable()) {
                 return ResponseEntity.ok().body(resource);
             } else {
